@@ -1,11 +1,13 @@
-import 'package:blog_app/app_palette.dart';
+import 'package:blog_app/core/theme/app_palette.dart';
 import 'package:flutter/material.dart';
 
-class SignupBtn extends StatelessWidget {
+class AuthGradientBtn extends StatelessWidget {
   final String buttonText;
-  const SignupBtn({
+  final VoidCallback onPressed;
+  const AuthGradientBtn({
     super.key,
     required this.buttonText,
+    required this.onPressed,
   });
 
   @override
@@ -24,7 +26,7 @@ class SignupBtn extends StatelessWidget {
         borderRadius: BorderRadius.circular(7),
       ),
       child: ElevatedButton(
-        onPressed: () => {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(395, 55),
           backgroundColor: AppPalette.transparentColor,
