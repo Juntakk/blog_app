@@ -10,7 +10,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required UserSignUp userSignUp,
   })  : _userSignUp = userSignUp,
-        super(AuthInitial()) {
+        super(
+          AuthInitial(),
+        ) {
     on<AuthSignUp>(
       (event, emit) async {
         final response = await _userSignUp(
@@ -22,7 +24,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
 
         response.fold(
-          (failure) => emit(AuthFailure(failure.message)),
+          (failure) => emit(
+            AuthFailure(failure.message),
+          ),
           (uid) => emit(
             AuthSuccess(uid),
           ),
