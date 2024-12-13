@@ -4,6 +4,7 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependenices() async {
   _initAuth();
+  _initBlog();
 
   final supabase = await Supabase.initialize(
     url: AppSecrets.supaBaseUrl,
@@ -12,6 +13,11 @@ Future<void> initDependenices() async {
 
   serviceLocator.registerLazySingleton(
     () => supabase.client,
+  );
+
+  //core
+  serviceLocator.registerLazySingleton(
+    () => AppUserCubit(),
   );
 }
 
@@ -47,6 +53,41 @@ void _initAuth() {
         userSignUp: serviceLocator(),
         userLogin: serviceLocator(),
         currentUser: serviceLocator(),
+        appUserCubit: serviceLocator(),
+      ),
+    );
+}
+
+void _initBlog() {
+  serviceLocator
+    //Datasource
+    ..registerFactory<BlogRemoteDataSource>(
+      () => BlogRemoteDataSourceImpl(
+        serviceLocator(),
+      ),
+    )
+    //Repo
+    ..registerFactory<BlogRepository>(
+      () => BlogRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+    //UseCase
+    ..registerFactory(
+      () => UploadBlog(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => GetAllBlogs(
+        serviceLocator(),
+      ),
+    )
+    //Bloc
+    ..registerLazySingleton(
+      () => BlogBloc(
+        uploadBlog: serviceLocator(),
+        getAllBlogs: serviceLocator(),
       ),
     );
 }
