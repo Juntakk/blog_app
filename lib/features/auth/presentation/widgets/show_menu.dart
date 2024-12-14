@@ -1,3 +1,5 @@
+import 'package:blog_app/core/theme/app_palette.dart';
+import 'package:blog_app/core/utils/get_random_number.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/init_dependencies.dart';
@@ -16,15 +18,22 @@ class SidebarMenu extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text(
-              'Menu',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
+          SizedBox(
+            height: 150,
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                color: getRandomNumber() == 0
+                    ? AppPalette.gradient1
+                    : getRandomNumber() == 1
+                        ? AppPalette.gradient2
+                        : AppPalette.gradient3,
+              ),
+              child: const Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
               ),
             ),
           ),

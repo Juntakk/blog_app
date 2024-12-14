@@ -1,5 +1,6 @@
 import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/common/entities/user.dart';
+import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/useCase/usecase.dart';
 import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_login.dart';
@@ -8,6 +9,7 @@ import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:blog_app/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:blog_app/core/utils/is_valid_email.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -40,8 +42,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLogoutEvent(
-      LogoutEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+    LogoutEvent event,
+    Emitter<AuthState> emit,
+  ) async {
     serviceLocator<AppUserCubit>().loggedOut();
 
     final result = await _logoutUserUseCase(NoParams());
@@ -62,17 +65,38 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAuthSignUp(AuthSignUp event, Emitter<AuthState> emit) async {
-    final response = await _userSignUp(
-      UserSignUpParams(
-        email: event.email,
-        name: event.name,
-        password: event.password,
-      ),
-    );
-    response.fold(
-      (failure) => emit(AuthFailure(failure.message)),
-      (user) => _emitAuthSuccess(user, emit),
-    );
+    if (event.password.length < 6 && !isValidEmail(event.email)) {
+      emit(const AuthFailure("Mistakes were Made"));
+      return;
+    }
+    if (!isValidEmail(event.email)) {
+      emit(const AuthFailure("Invalid email"));
+      return;
+    }
+    if (event.password.length < 6) {
+      emit(const AuthFailure("Password needs at least 8 characters"));
+      return;
+    }
+
+    try {
+      final response = await _userSignUp(
+        UserSignUpParams(
+          email: event.email,
+          name: event.name,
+          password: event.password,
+        ),
+      );
+      response.fold(
+        (failure) => emit(AuthFailure(failure.message)),
+        (user) => _emitAuthSuccess(user, emit),
+      );
+    } on ServerException catch (e) {
+      if (e.toString().contains('User')) {
+        emit(const AuthFailure('Email is already taken'));
+      } else {
+        emit(AuthFailure("An error occurred: ${e.toString()}"));
+      }
+    }
   }
 
   void _onAuthLogin(AuthLogin event, Emitter<AuthState> emit) async {

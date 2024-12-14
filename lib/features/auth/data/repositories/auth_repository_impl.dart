@@ -16,7 +16,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await remoteDataSource.getCurrentUserData();
       if (user == null) {
         return left(
-          Failure("User not logged in"),
+          Failure("Please login"),
         );
       }
       return right(user);
@@ -61,7 +61,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await remoteDataSource.getCurrentUserData();
       if (user == null) {
         return left(
-          Failure("User not logged in"),
+          Failure("Failed to logout"),
         );
       }
       return right(user);

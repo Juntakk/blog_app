@@ -1,7 +1,7 @@
 import 'package:blog_app/core/common/widgets/loader.dart';
 import 'package:blog_app/core/theme/app_palette.dart';
 import 'package:blog_app/core/utils/get_random_number.dart';
-import 'package:blog_app/features/auth/presentation/pages/widgets/show_menu.dart';
+import 'package:blog_app/features/auth/presentation/widgets/show_menu.dart';
 import 'package:blog_app/core/utils/show_snackbar.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/pages/login_page.dart';

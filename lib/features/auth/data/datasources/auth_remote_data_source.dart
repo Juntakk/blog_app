@@ -72,6 +72,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         email: currentUserSession!.user.email,
       );
     } catch (e) {
+      if (e.toString().contains('user_already_exists')) {
+        return throw const ServerException("Email is already taken");
+      }
       throw ServerException(e.toString());
     }
   }
