@@ -27,7 +27,7 @@
   </tr>
   <tr>
     <td>
-      <img src="lib/assets/screenshots/blog4.png" alt="Menu View" width="300">
+      <img src="lib/assets/screenshots/blog5.png" alt="Menu View" width="300">
     </td>
     <td>
       <b>Menu View:</b> A navigation menu that allows users to access different sections of the app.
