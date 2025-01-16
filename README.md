@@ -1,6 +1,6 @@
 <h1>Blog App</h1>
 
-<h3>Blog App is a versatile web application designed to streamline the blogging experience for both writers and readers. With intuitive navigation, secure user authentication, and seamless integration with Firebase, this app empowers users to create, share, and explore engaging content effortlessly.</h3>
+<p>Blog App is a versatile web application designed to streamline the blogging experience for both writers and readers. With intuitive navigation, secure user authentication, and seamless integration with Firebase, this app empowers users to create, share, and explore engaging content effortlessly.</p>
 
 <h3>Technologies Used</h3>
 <ul>
