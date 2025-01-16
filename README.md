@@ -1,4 +1,4 @@
-# Blog App Screenshots
+# Blog App 
 
 <table>
   <tr>
